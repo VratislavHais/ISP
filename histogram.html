@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+        .axis {
+            font-size: 10px;
+        }
+
+        .axis line, .axis path {
+            fill: none;
+            stroke: #000;
+        }
+    </style>
+    <title>Histogram</title>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+  </head>
+  <body>
+    <input type="button" onclick="higher()" value="Unable" id="higher" disabled/>
+    <br><br><br>
+  	<script>
+
+        /**
+        *   function return highest value from JSON data. Highest value is used as conversion for height of bars
+        **/
+
+        function getHighestValue(data) {
+            var max = 0;
+            data.forEach(function(d) {
+                if (max < d.numberOfMessages) {
+                    max = d.numberOfMessages;
+                }
+            });
+            return max;
+        }
+
+        /**
+        *   destroys time line graph, so we can recreate it
+        **/
+
+        function destroyTimeLine() {
+            var element = document.getElementById("timeLine");
+            if (element !== null) {
+                element.remove();
+            }
+        } 
+
+        /**
+        *   graph itself
+        *   @arg timeStampsArg - set to 24 or 60 dependig on current time visualization (24 for hours, 60 for minutes)
+        *   @arg timeScaleArg - serves as naming of axis. Values - "Hour", "Minute", "Second"
+        **/
+
+        function timeLine(timeStampsArg, timeScaleArg) {
+            var width = 500;
+            var height = 100;
+            var timeStamps = timeStampsArg;
+            var barWidth;                                           // width of 1 bar
+            var highestValue;
+            timeStamps > 24 ? barWidth = 9.55 : barWidth = 24;      // conversions discovered by method attempt/fault
+            var timeScale = timeScaleArg;
+            var data = [];
+            if (timeScale == "Hour")
+                data = [
+                    {"timeStamp" : 1, "numberOfMessages" : 25},
+                    {"timeStamp" : 2, "numberOfMessages" : 30},
+                    {"timeStamp" : 3, "numberOfMessages" : 40},
+                    {"timeStamp" : 4, "numberOfMessages" : 25},
+                    {"timeStamp" : 5, "numberOfMessages" : 30},
+                    {"timeStamp" : 6, "numberOfMessages" : 40},
+                    {"timeStamp" : 7, "numberOfMessages" : 25},
+                    {"timeStamp" : 8, "numberOfMessages" : 30},
+                    {"timeStamp" : 9, "numberOfMessages" : 40},
+                    {"timeStamp" : 10, "numberOfMessages" : 25},
+                    {"timeStamp" : 11, "numberOfMessages" : 30},
+                    {"timeStamp" : 12, "numberOfMessages" : 40},
+                    {"timeStamp" : 13, "numberOfMessages" : 25},
+                    {"timeStamp" : 14, "numberOfMessages" : 30},
+                    {"timeStamp" : 15, "numberOfMessages" : 40},
+                    {"timeStamp" : 16, "numberOfMessages" : 25},
+                    {"timeStamp" : 17, "numberOfMessages" : 30},
+                    {"timeStamp" : 18, "numberOfMessages" : 40},
+                    {"timeStamp" : 19, "numberOfMessages" : 25},
+                    {"timeStamp" : 20, "numberOfMessages" : 30},
+                    {"timeStamp" : 21, "numberOfMessages" : 40},
+                    {"timeStamp" : 22, "numberOfMessages" : 25},
+                    {"timeStamp" : 23, "numberOfMessages" : 30},
+                    {"timeStamp" : 24, "numberOfMessages" : 40}
+                ];
+            else {
+                data = [
+                    {"timeStamp" : 1, "numberOfMessages" : 25},
+                    {"timeStamp" : 2, "numberOfMessages" : 30},
+                    {"timeStamp" : 3, "numberOfMessages" : 40},
+                    {"timeStamp" : 4, "numberOfMessages" : 25},
+                    {"timeStamp" : 5, "numberOfMessages" : 30},
+                    {"timeStamp" : 6, "numberOfMessages" : 40},
+                    {"timeStamp" : 7, "numberOfMessages" : 25},
+                    {"timeStamp" : 8, "numberOfMessages" : 30},
+                    {"timeStamp" : 9, "numberOfMessages" : 40},
+                    {"timeStamp" : 10, "numberOfMessages" : 25},
+                    {"timeStamp" : 11, "numberOfMessages" : 30},
+                    {"timeStamp" : 12, "numberOfMessages" : 40},
+                    {"timeStamp" : 13, "numberOfMessages" : 25},
+                    {"timeStamp" : 14, "numberOfMessages" : 30},
+                    {"timeStamp" : 15, "numberOfMessages" : 40},
+                    {"timeStamp" : 16, "numberOfMessages" : 25},
+                    {"timeStamp" : 17, "numberOfMessages" : 30},
+                    {"timeStamp" : 18, "numberOfMessages" : 40},
+                    {"timeStamp" : 19, "numberOfMessages" : 25},
+                    {"timeStamp" : 20, "numberOfMessages" : 30},
+                    {"timeStamp" : 21, "numberOfMessages" : 40},
+                    {"timeStamp" : 22, "numberOfMessages" : 25},
+                    {"timeStamp" : 23, "numberOfMessages" : 30},
+                    {"timeStamp" : 24, "numberOfMessages" : 40},
+                    {"timeStamp" : 25, "numberOfMessages" : 25},
+                    {"timeStamp" : 26, "numberOfMessages" : 30},
+                    {"timeStamp" : 27, "numberOfMessages" : 40},
+                    {"timeStamp" : 28, "numberOfMessages" : 25},
+                    {"timeStamp" : 29, "numberOfMessages" : 30},
+                    {"timeStamp" : 30, "numberOfMessages" : 40},
+                    {"timeStamp" : 31, "numberOfMessages" : 25},
+                    {"timeStamp" : 32, "numberOfMessages" : 30},
+                    {"timeStamp" : 33, "numberOfMessages" : 40},
+                    {"timeStamp" : 34, "numberOfMessages" : 25},
+                    {"timeStamp" : 35, "numberOfMessages" : 30},
+                    {"timeStamp" : 36, "numberOfMessages" : 40},
+                    {"timeStamp" : 37, "numberOfMessages" : 25},
+                    {"timeStamp" : 38, "numberOfMessages" : 30},
+                    {"timeStamp" : 39, "numberOfMessages" : 40},
+                    {"timeStamp" : 40, "numberOfMessages" : 25},
+                    {"timeStamp" : 41, "numberOfMessages" : 30},
+                    {"timeStamp" : 42, "numberOfMessages" : 40},
+                    {"timeStamp" : 43, "numberOfMessages" : 25},
+                    {"timeStamp" : 44, "numberOfMessages" : 30},
+                    {"timeStamp" : 45, "numberOfMessages" : 40},
+                    {"timeStamp" : 46, "numberOfMessages" : 25},
+                    {"timeStamp" : 47, "numberOfMessages" : 30},
+                    {"timeStamp" : 48, "numberOfMessages" : 40},
+                    {"timeStamp" : 49, "numberOfMessages" : 25},
+                    {"timeStamp" : 50, "numberOfMessages" : 30},
+                    {"timeStamp" : 51, "numberOfMessages" : 40},
+                    {"timeStamp" : 52, "numberOfMessages" : 25},
+                    {"timeStamp" : 53, "numberOfMessages" : 30},
+                    {"timeStamp" : 54, "numberOfMessages" : 40},
+                    {"timeStamp" : 55, "numberOfMessages" : 25},
+                    {"timeStamp" : 56, "numberOfMessages" : 30},
+                    {"timeStamp" : 57, "numberOfMessages" : 40},
+                    {"timeStamp" : 58, "numberOfMessages" : 25},
+                    {"timeStamp" : 59, "numberOfMessages" : 30},
+                    {"timeStamp" : 60, "numberOfMessages" : 40}
+                ];
+            }
+            highestValue = getHighestValue(data);
+            var histogram = d3.layout.histogram()
+                            .bins(timeStamps)(data);            // creating histogram layout
+            for (var i = 0; i < timeStamps; i++) {              // filling variable histogram with OUR data
+                histogram[i].dx = width / timeStamps;           // width of bar
+                histogram[i].x = data[i].timeStamp * barWidth - barWidth;   // placing on x axis
+                histogram[i].y = data[i].numberOfMessages       // placing on y axis
+                histogram[i].d = data[i].timeStamp;             // time
+            }
+            width += 80;              // now we resize width, so everything fit in
+
+            var x = d3.scale.linear()
+                    .domain([0, timeStamps])
+                    .range([0, width - 5]);
+
+            var xAxis = d3.svg.axis()           //x axis
+                        .scale(x)
+                        .orient("bottom");
+
+      		var canvas = d3.select("body").append("svg")
+                        .attr("width", width)
+                        .attr("height", height + 40)                        // need to add some height, so axis and axis description fits in
+                        .attr("id", "timeLine")
+                        .append("g")
+                                .attr("transform", "translate(0,0)");       //creating canvas
+
+            var group = canvas.append("g")
+                        .attr("transform", "translate(-2.5," + (height) + ")")
+                        .attr("class", "axis")
+                        .call(xAxis);                                       // adding axis
+            canvas.append("text")                                           // adding axis description
+                    .attr("x", width / 2 )
+                    .attr("y",  height + 30 )
+                    .attr("id", timeScale)
+                    .style("text-anchor", "middle")
+                    .text(timeScale);
+            var bars = canvas.selectAll(".bar")                 // creating element "g" for each bar
+                        .data(histogram)
+                        .enter()
+                        .append("g");
+
+            bars.append("rect")                                 // creating bars
+                .attr("x", function(d) { return d.x; })
+                .attr("y", function(d) { return height - (d.y / highestValue * height); })      // highest value gets maximum height, others are set opposite to this
+                .attr("width", function(d) { return d.dx; } )
+                .attr("height", function(d) { return d.y / highestValue * height; })
+                .attr("time", function(d) { return d.d; })
+                .attr("selected", 0)
+                .attr("fill", "steelblue")
+                .on("mouseover", function() {
+                    var thisBar = d3.select(this);
+                    if (thisBar.attr("selected") == 0) {
+                        thisBar.transition()
+                            .attr("fill", "red");
+                    }
+                })
+                .on("mouseout", function() {
+                    var thisBar = d3.select(this);
+                    if (thisBar.attr("selected") == 0) {
+                        thisBar.transition()
+                            .attr("fill", "steelblue");
+                    }
+                })
+                .on("click", function() {
+                    var thisBar = d3.select(this);
+                    if (thisBar.attr("selected") == 0) {
+                        thisBar.attr("selected", 1);
+                        thisBar.transition().attr("fill", "green");
+                    }
+                    else {
+                        thisBar.attr("selected", 0);
+                        thisBar.transition().attr("fill", "steelblue");
+                    }
+                })
+                .on("dblclick", function() {
+                    clicked(timeScale);
+                });
+        }
+
+        /**
+        *   function redraw graph with new time scaling
+        *   @arg timeScale - past time scale. Needed so we can switch to next
+        **/
+
+        function clicked(timeScale) {
+            var timeScaleNext;
+            switch (timeScale) {
+                case "Hour":
+                    timeScaleNext = "Minute";
+                    break;
+                case "Minute":
+                    timeScaleNext = "Second";
+                    break;
+                case "Second":
+                    alert("Unable to go any further");
+                    return;
+            }
+            document.getElementById("higher").value = timeScale;
+            document.getElementById("higher").disabled = false;
+            destroyTimeLine();
+            timeLine(60, timeScaleNext);
+        }
+
+        /**
+        *   function redraw graph with time scaling one level higher
+        **/
+
+        function higher() {
+            var button = document.getElementById("higher");
+            var timeScale = button.value;
+            var ticks;
+            switch (timeScale) {
+                case "Hour":
+                    button.value = "Unable";
+                    button.disabled = true;
+                    ticks = 24;
+                    break;
+                case "Minute":
+                    button.value = "Hour";
+                    ticks = 60;
+                    break;
+            }
+            destroyTimeLine();
+            timeLine(ticks, timeScale);
+        }
+
+        timeLine(24, "Hour");
+
+  	</script>
+  </body>
+</html>
