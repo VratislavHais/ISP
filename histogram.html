@@ -228,6 +228,16 @@
                 .on("dblclick", function() {
                     clicked(timeScale);
                 });
+
+            bars.append("text")
+            .attr("x", function (d) { return d.x; })
+            .attr("y", function (d) { return height - (d.y / highestValue * height); })
+            .attr("dy", "20px")
+            .attr("dx", function (d) { return d.dx/2; })
+            .attr("fill", "#FFF")
+            .attr("text-anchor", "middle")
+            .attr("font-size", "8px")
+            .text(function (d) { return d.y; });
         }
 
         /**
