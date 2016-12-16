@@ -221,29 +221,31 @@
                     var thisBar = d3.select(this);
                     var storage = localStorage.getItem("selectedTime");
                     var difference;
-                    if (thisBar.attr("selected") == 0) {
+                    if (thisBar.attr("selected") == 0) {        //bar selected
                         thisBar.attr("selected", 1);
                         thisBar.transition().attr("fill", "green");
                         if (storage == null) {
                             localStorage.setItem("selectedTime", thisBar.attr("time"));
                         }
                         else {
+                            //we need to store every selected value, not just the last one
                             storage = storage.split(",");
                             storage.push(thisBar.attr("time"));
                             localStorage.setItem("selectedTime", storage);
-                            if ((storage.length % 2) == 0) {
+                            if ((storage.length % 2) == 0) {        //if storage length is even, we are going to change level (2 values selected)
+                                //we need to calculate difference between selected bars, so we can calculate, if change of scale is necessary
                                 difference = Math.abs(storage[storage.length - 1] - storage[storage.length - 2]) + (1 * multiplier);
                                 clicked(timeScale, difference);
                             }
                         }
                     }
-                    else {
+                    else {      //bar deselected
                         thisBar.attr("selected", 0);
                         thisBar.transition().attr("fill", "steelblue");
                         storage = storage.split(",");
-                        var index = storage.lastIndexOf(thisBar.attr("time"));
-                        storage.splice(index, 1);
-                        if (storage.length == 0) {
+                        var index = storage.lastIndexOf(thisBar.attr("time"));  //find index of deselected bar
+                        storage.splice(index, 1);   //remove deselected bar from array
+                        if (storage.length == 0) {  //no more selected bars (needs to be checked only in hour layer)
                             localStorage.removeItem("selectedTime");
                         }
                         else {
@@ -306,8 +308,9 @@
                     timeScaleNext = "Minute";
                     break;
                 case "Minute":
+                    //if multiplier is greater than 60, we have no need in changing level
                     if (multiplier > 60) {
-                        multiplier /= 60;
+                        multiplier /= 60;   //calculating next range of 1 bar
                         timeScaleNext = "Minute";
                     }
                     else {
@@ -315,6 +318,7 @@
                     }
                     break;
                 case "Second":
+                    //same as for minute
                     if (multiplier > 60) {
                         multiplier /= 60;
                         timeScaleNext = "Second";
@@ -325,6 +329,7 @@
                     }
                     break;
             }
+            //and now store multiplier, so we can implement returning to higher layer
             if (multi == null) {
                 localStorage.setItem("multipliers", multiplier);
             }
@@ -333,7 +338,6 @@
                 multi.push(multiplier);
                 localStorage.setItem("multipliers", multi);
             }
-            console.log(multi);
             destroyTimeLine();
             timeLine(60, timeScaleNext, multiplier);
         }
