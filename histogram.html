@@ -16,7 +16,7 @@
 	<script src="http://d3js.org/d3.v3.min.js"></script>
   </head>
   <body>
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="root" width="100%" height="900px" />
+    <center><svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="root" width="50%" height="900px" /></center>
     <br><br><br>
   	<script>
 
@@ -49,9 +49,10 @@
         *   graph itself
         *   @arg timeStampsArg - set to 24 or 60 dependig on current time visualization (24 for hours, 60 for minutes)
         *   @arg timeScaleArg - serves as naming of axis. Values - "Hour", "Minute", "Second"
+        *   @arg multiplier - selected range (if user selects from 6 to 10, multiplier will be equal to 4)
         **/
 
-        function timeLine(timeStampsArg, timeScaleArg) {
+        function timeLine(timeStampsArg, timeScaleArg, multiplier) {
             var width = 500;
             var height = 100;
             var timeStamps = timeStampsArg;
@@ -89,66 +90,66 @@
                 ];
             else {
                 data = [
-                    {"timeStamp" : 1, "numberOfMessages" : 25},
-                    {"timeStamp" : 2, "numberOfMessages" : 30},
-                    {"timeStamp" : 3, "numberOfMessages" : 40},
-                    {"timeStamp" : 4, "numberOfMessages" : 25},
-                    {"timeStamp" : 5, "numberOfMessages" : 30},
-                    {"timeStamp" : 6, "numberOfMessages" : 40},
-                    {"timeStamp" : 7, "numberOfMessages" : 25},
-                    {"timeStamp" : 8, "numberOfMessages" : 30},
-                    {"timeStamp" : 9, "numberOfMessages" : 40},
-                    {"timeStamp" : 10, "numberOfMessages" : 25},
-                    {"timeStamp" : 11, "numberOfMessages" : 30},
-                    {"timeStamp" : 12, "numberOfMessages" : 40},
-                    {"timeStamp" : 13, "numberOfMessages" : 25},
-                    {"timeStamp" : 14, "numberOfMessages" : 30},
-                    {"timeStamp" : 15, "numberOfMessages" : 40},
-                    {"timeStamp" : 16, "numberOfMessages" : 25},
-                    {"timeStamp" : 17, "numberOfMessages" : 30},
-                    {"timeStamp" : 18, "numberOfMessages" : 40},
-                    {"timeStamp" : 19, "numberOfMessages" : 25},
-                    {"timeStamp" : 20, "numberOfMessages" : 30},
-                    {"timeStamp" : 21, "numberOfMessages" : 40},
-                    {"timeStamp" : 22, "numberOfMessages" : 25},
-                    {"timeStamp" : 23, "numberOfMessages" : 30},
-                    {"timeStamp" : 24, "numberOfMessages" : 40},
-                    {"timeStamp" : 25, "numberOfMessages" : 25},
-                    {"timeStamp" : 26, "numberOfMessages" : 30},
-                    {"timeStamp" : 27, "numberOfMessages" : 40},
-                    {"timeStamp" : 28, "numberOfMessages" : 25},
-                    {"timeStamp" : 29, "numberOfMessages" : 30},
-                    {"timeStamp" : 30, "numberOfMessages" : 40},
-                    {"timeStamp" : 31, "numberOfMessages" : 25},
-                    {"timeStamp" : 32, "numberOfMessages" : 30},
-                    {"timeStamp" : 33, "numberOfMessages" : 40},
-                    {"timeStamp" : 34, "numberOfMessages" : 25},
-                    {"timeStamp" : 35, "numberOfMessages" : 30},
-                    {"timeStamp" : 36, "numberOfMessages" : 40},
-                    {"timeStamp" : 37, "numberOfMessages" : 25},
-                    {"timeStamp" : 38, "numberOfMessages" : 30},
-                    {"timeStamp" : 39, "numberOfMessages" : 40},
-                    {"timeStamp" : 40, "numberOfMessages" : 25},
-                    {"timeStamp" : 41, "numberOfMessages" : 30},
-                    {"timeStamp" : 42, "numberOfMessages" : 40},
-                    {"timeStamp" : 43, "numberOfMessages" : 25},
-                    {"timeStamp" : 44, "numberOfMessages" : 30},
-                    {"timeStamp" : 45, "numberOfMessages" : 40},
-                    {"timeStamp" : 46, "numberOfMessages" : 25},
-                    {"timeStamp" : 47, "numberOfMessages" : 30},
-                    {"timeStamp" : 48, "numberOfMessages" : 40},
-                    {"timeStamp" : 49, "numberOfMessages" : 25},
-                    {"timeStamp" : 50, "numberOfMessages" : 30},
-                    {"timeStamp" : 51, "numberOfMessages" : 40},
-                    {"timeStamp" : 52, "numberOfMessages" : 25},
-                    {"timeStamp" : 53, "numberOfMessages" : 30},
-                    {"timeStamp" : 54, "numberOfMessages" : 40},
-                    {"timeStamp" : 55, "numberOfMessages" : 25},
-                    {"timeStamp" : 56, "numberOfMessages" : 30},
-                    {"timeStamp" : 57, "numberOfMessages" : 40},
-                    {"timeStamp" : 58, "numberOfMessages" : 25},
-                    {"timeStamp" : 59, "numberOfMessages" : 30},
-                    {"timeStamp" : 60, "numberOfMessages" : 40}
+                    {"timeStamp" : 1 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 2 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 3 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 4 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 5 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 6 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 7 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 8 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 9 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 10 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 11 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 12 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 13 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 14 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 15 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 16 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 17 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 18 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 19 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 20 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 21 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 22 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 23 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 24 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 25 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 26 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 27 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 28 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 29 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 30 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 31 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 32 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 33 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 34 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 35 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 36 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 37 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 38 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 39 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 40 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 41 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 42 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 43 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 44 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 45 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 46 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 47 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 48 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 49 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 50 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 51 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 52 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 53 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 54 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 55 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 56 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 57 * multiplier, "numberOfMessages" : 40},
+                    {"timeStamp" : 58 * multiplier, "numberOfMessages" : 25},
+                    {"timeStamp" : 59 * multiplier, "numberOfMessages" : 30},
+                    {"timeStamp" : 60 * multiplier, "numberOfMessages" : 40}
                 ];
             }
             highestValue = getHighestValue(data);
@@ -156,14 +157,14 @@
                             .bins(timeStamps)(data);            // creating histogram layout
             for (var i = 0; i < timeStamps; i++) {              // filling variable histogram with OUR data
                 histogram[i].dx = width / timeStamps;           // width of bar
-                histogram[i].x = data[i].timeStamp * barWidth - barWidth;   // placing on x axis
+                histogram[i].x = (data[i].timeStamp / multiplier) * barWidth - barWidth;   // placing on x axis
                 histogram[i].y = data[i].numberOfMessages       // placing on y axis
                 histogram[i].d = data[i].timeStamp;             // time
             }
             width += 80;              // now we resize width, so everything fit in
 
             var x = d3.scale.linear()
-                    .domain([0, timeStamps])
+                    .domain([0, timeStamps * multiplier])
                     .range([0, width - 5]);
 
             var xAxis = d3.svg.axis()           //x axis
@@ -218,17 +219,37 @@
                 })
                 .on("click", function() {
                     var thisBar = d3.select(this);
+                    var storage = localStorage.getItem("selectedTime");
+                    var difference;
                     if (thisBar.attr("selected") == 0) {
                         thisBar.attr("selected", 1);
                         thisBar.transition().attr("fill", "green");
+                        if (storage == null) {
+                            localStorage.setItem("selectedTime", thisBar.attr("time"));
+                        }
+                        else {
+                            storage = storage.split(",");
+                            storage.push(thisBar.attr("time"));
+                            localStorage.setItem("selectedTime", storage);
+                            if ((storage.length % 2) == 0) {
+                                difference = Math.abs(storage[storage.length - 1] - storage[storage.length - 2]) + (1 * multiplier);
+                                clicked(timeScale, difference);
+                            }
+                        }
                     }
                     else {
                         thisBar.attr("selected", 0);
                         thisBar.transition().attr("fill", "steelblue");
+                        storage = storage.split(",");
+                        var index = storage.lastIndexOf(thisBar.attr("time"));
+                        storage.splice(index, 1);
+                        if (storage.length == 0) {
+                            localStorage.removeItem("selectedTime");
+                        }
+                        else {
+                            localStorage.setItem("selectedTime", storage);
+                        }
                     }
-                })
-                .on("dblclick", function() {
-                    clicked(timeScale);
                 });
 
             //adding text with number of messages to bars 
@@ -242,10 +263,13 @@
             .attr("font-size", "8px")
             .text(function (d) { return d.y; });
 
+            //button for returning to higher lvl
             var button = canvas.append("g");
             button.append("rect")
             .attr("x", 504)
             .attr("y", 120)
+            .attr("rx", 5)
+            .attr("ry", 5)
             .attr("width", 70)
             .attr("height", 20)
             .attr("fill", "#e6e6e6")
@@ -255,16 +279,14 @@
             .attr("timeStamp", timeScale)
             .on("click", function() {
                 higher(d3.select(this).attr("timeStamp"));
-                //d3.select(this).attr("fill", "red");
             })
             button.append("text")
-                .attr("x", 520)
+                .attr("x", 525)
                 .attr("y", 135)
                 .attr("fill", "black")
                 .style("cursor", "default")
-                .text("button")
+                .text("back")
                 .on("click", function() {
-                    //d3.select("#button").attr("fill", "red");
                     higher(d3.select("#button").attr("timeStamp"));
                 });
 
@@ -275,21 +297,45 @@
         *   @arg timeScale - past time scale. Needed so we can switch to next
         **/
 
-        function clicked(timeScale) {
+        function clicked(timeScale, multiplierArg) {
             var timeScaleNext;
+            var multiplier = multiplierArg;
+            var multi = localStorage.getItem("multipliers");
             switch (timeScale) {
                 case "Hour":
                     timeScaleNext = "Minute";
                     break;
                 case "Minute":
-                    timeScaleNext = "Second";
+                    if (multiplier > 60) {
+                        multiplier /= 60;
+                        timeScaleNext = "Minute";
+                    }
+                    else {
+                        timeScaleNext = "Second";
+                    }
                     break;
                 case "Second":
-                    alert("Unable to go any further");
-                    return;
+                    if (multiplier > 60) {
+                        multiplier /= 60;
+                        timeScaleNext = "Second";
+                    }
+                    else {
+                        alert("Unable to go any further");
+                        return;
+                    }
+                    break;
             }
+            if (multi == null) {
+                localStorage.setItem("multipliers", multiplier);
+            }
+            else {
+                multi = multi.split(",");
+                multi.push(multiplier);
+                localStorage.setItem("multipliers", multi);
+            }
+            console.log(multi);
             destroyTimeLine();
-            timeLine(60, timeScaleNext);
+            timeLine(60, timeScaleNext, multiplier);
         }
 
         /**
@@ -301,6 +347,8 @@
             var timeScale = element.attr("timeStamp");
             var timeScaleNext;
             var ticks;
+            var storage;
+            var alreadySelected;
             switch (timeScale) {
                 case "Hour":
                     alert("Unable to go higher!");
@@ -314,11 +362,30 @@
                     timeScaleNext = "Minute";
                     break;
             }
+            storage = localStorage.getItem("multipliers");
+            storage = storage.split(",");
+            storage.splice(storage.length - 1, 1);
+            if (storage.length == 0) {
+                localStorage.removeItem("multipliers");
+            }
+            else {
+                localStorage.setItem("multipliers", storage);
+            }
+            storage = localStorage.getItem("selectedTime");
+            storage = storage.split(",");
+            alreadySelected = storage.length % 2;
+            storage.splice(storage.length - 2 - alreadySelected, 2 + alreadySelected);
+            if (storage.length == 0) {
+                localStorage.removeItem("selectedTime");
+            }
+            else {
+                localStorage.setItem("selectedTime", storage);
+            }
             destroyTimeLine();
-            timeLine(ticks, timeScaleNext);
+            timeLine(ticks, timeScaleNext, 1);
         }
-
-        timeLine(24, "Hour");
+        localStorage.clear();
+        timeLine(24, "Hour", 1);
 
   	</script>
   </body>
