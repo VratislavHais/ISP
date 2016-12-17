@@ -60,6 +60,15 @@
             var highestValue;
             timeStamps > 24 ? barWidth = 9.55 : barWidth = 24;      // conversions discovered by method attempt/fault
             var timeScale = timeScaleArg;
+            var storage = localStorage.getItem("scales");
+            if (storage == null) {
+                localStorage.setItem("scales", timeScale);
+            }
+            else {
+                storage = storage.split(",");
+                storage.push(timeScale);
+                localStorage.setItem("scales", storage);
+            }
             var data = [];
             if (timeScale == "Hour")
                 data = [
@@ -352,28 +361,11 @@
             var timeScaleNext;
             var ticks;
             var storage;
+            var storage2;
             var alreadySelected;
-            switch (timeScale) {
-                case "Hour":
-                    alert("Unable to go higher!");
-                    return;
-                case "Minute":
-                    ticks = 24;
-                    timeScaleNext = "Hour";
-                    break;
-                case "Second":
-                    ticks = 60;
-                    timeScaleNext = "Minute";
-                    break;
-            }
-            storage = localStorage.getItem("multipliers");
-            storage = storage.split(",");
-            storage.splice(storage.length - 1, 1);
-            if (storage.length == 0) {
-                localStorage.removeItem("multipliers");
-            }
-            else {
-                localStorage.setItem("multipliers", storage);
+            if (timeScale == "Hour") {
+                alert("Unable to go higher!");
+                return;
             }
             storage = localStorage.getItem("selectedTime");
             storage = storage.split(",");
@@ -385,10 +377,31 @@
             else {
                 localStorage.setItem("selectedTime", storage);
             }
+            storage = localStorage.getItem("multipliers");
+            storage = storage.split(",");
+            storage.splice(storage.length - 1, 1);
+            if (storage.length == 0) {
+                localStorage.removeItem("multipliers");
+            }
+            else {
+                localStorage.setItem("multipliers", storage);
+            }
+            storage2 = localStorage.getItem("scales");
+            storage2 = storage2.split(",");
+            timeScaleNext = storage2[storage2.length - 2];
+            storage2.splice(storage2.length - 2, 2);
+            if (storage2.length == 0) {
+                localStorage.removeItem("scales");
+            }
+            else {
+                localStorage.setItem("scales", storage2);
+            }
+            timeScaleNext == "Hour" ? ticks = 24 : ticks = 60; 
             destroyTimeLine();
-            timeLine(ticks, timeScaleNext, 1);
+            timeLine(ticks, timeScaleNext, storage[storage.length - 1]);
         }
         localStorage.clear();
+        localStorage.setItem("multipliers", 1);
         timeLine(24, "Hour", 1);
 
   	</script>
