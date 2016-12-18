@@ -362,20 +362,12 @@
             var ticks;
             var storage;
             var storage2;
+            var multiply;
+            var difference;
             var alreadySelected;
             if (timeScale == "Hour") {
                 alert("Unable to go higher!");
                 return;
-            }
-            storage = localStorage.getItem("selectedTime");
-            storage = storage.split(",");
-            alreadySelected = storage.length % 2;
-            storage.splice(storage.length - 2 - alreadySelected, 2 + alreadySelected);
-            if (storage.length == 0) {
-                localStorage.removeItem("selectedTime");
-            }
-            else {
-                localStorage.setItem("selectedTime", storage);
             }
             storage = localStorage.getItem("multipliers");
             storage = storage.split(",");
@@ -386,6 +378,7 @@
             else {
                 localStorage.setItem("multipliers", storage);
             }
+            multiply = storage[storage.length - 1];
             storage2 = localStorage.getItem("scales");
             storage2 = storage2.split(",");
             timeScaleNext = storage2[storage2.length - 2];
@@ -396,10 +389,106 @@
             else {
                 localStorage.setItem("scales", storage2);
             }
+            storage = localStorage.getItem("selectedTime");
+            storage = storage.split(",");
+            difference = storage.length - ((storage2.length + 1) * 2);
+            alreadySelected = storage.length % 2;
+            storage.splice(storage.length - 2 - alreadySelected - difference, 2 + alreadySelected + difference);
+            if (storage.length == 0) {
+                localStorage.removeItem("selectedTime");
+            }
+            else {
+                localStorage.setItem("selectedTime", storage);
+            }
             timeScaleNext == "Hour" ? ticks = 24 : ticks = 60; 
             destroyTimeLine();
-            timeLine(ticks, timeScaleNext, storage[storage.length - 1]);
+            timeLine(ticks, timeScaleNext, multiply);
         }
+
+        function getSelectedTime() {
+            var selectedValues = localStorage.getItem("selectedTime");
+            var scales = localStorage.getItem("scales");
+            var selectedValuesLength = selectedValues.length;
+            var returnArray = [];
+            var index;
+            var from;
+            var to;
+            selectedValues = selectedValues.split(",");
+            scales = scales.split(",");
+            if (selectedValues == null) {
+                alert("Error! No time selected");
+                return null;
+            }
+            from = (selectedValues[0] - 1) * 3600000;
+            if (selectedValuesLength < 2) {
+                to = from + 3600000;
+                returnArray[0] = from;
+                returnArray[1] = to;
+                return returnArray;
+            }
+            to = selectedValues[1] * 3600000;
+            index = scales.lastIndexOf("Minute");
+            if (index < 0 || selectedValuesLength == 2) {
+                returnArray[0] = from;
+                returnArray[1] = to;
+                return returnArray;
+            }
+            if ((index * 2) > selectedValuesLength) {
+                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - 1) * 60000;
+                returnArray[1] = to + selectedValues[selectedValuesLength - 1] * 60000;
+                return returnArray;
+            }
+            if ((index * 2) == selectedValuesLength) {
+                from += (selectedValues[selectedValuesLength - 1] - 1) * 60000;
+                returnArray[0] = from;
+                returnArray[1] = from + 60000;
+                return returnArray;
+            }
+            from += (selectedValues[index * 2] - 1) * 60000;
+            to += selectedValues[index * 2 + 1] * 60000;
+            if ((index * 2 + 1) == selectedValuesLength) {
+                returnArray[0] = from;
+                returnArray[1] = to;
+                return returnArray;
+            }
+            index = scales.lastIndexOf("Second");
+            if ((index * 2) > selectedValuesLength) {
+                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - 1) * 1000;
+                returnArray[1] = to + selectedValues[selectedValuesLength - 1] * 1000;
+                return returnArray;
+            }
+            if ((index * 2) == selectedValuesLength) {
+                from += (selectedValues[selectedValuesLength - 1] - 1) * 1000;
+                returnArray[0] = from;
+                returnArray[1] = from + 1000;
+                return returnArray;
+            }
+            from += (selectedValues[index * 2] - 1) * 1000;
+            to += selectedValues[index * 2 + 1] * 1000;
+            if ((index * 2 + 1) == selectedValuesLength) {
+                returnArray[0] = from;
+                returnArray[1] = to;
+                return returnArray;
+            }
+            index = scales.lastIndexOf("Milisecond");
+            if ((index * 2) > selectedValuesLength) {
+                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - 1);
+                returnArray[1] = to + selectedValues[selectedValuesLength - 1];
+                return returnArray;
+            }
+            if ((index * 2) == selectedValuesLength) {
+                from += (selectedValues[selectedValuesLength - 1] - 1);
+                returnArray[0] = from;
+                returnArray[1] = from + 1;
+                return returnArray;
+            }
+            from += selectedValues[index * 2] - 1;
+            to += selectedValues[(index * 2) + 1];
+            returnArray[0] = from;
+            returnArray[1] = to;
+            return returnArray;
+        }
+        
         localStorage.clear();
         localStorage.setItem("multipliers", 1);
         timeLine(24, "Hour", 1);
