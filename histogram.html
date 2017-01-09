@@ -60,7 +60,6 @@
             var highestValue;
             var miliseconds;
             timeStamps > 24 ? barWidth = 9.55 : barWidth = 24;      // conversions discovered by method attempt/fault
-            timeScale == "Milisecond" ? miliseconds = 16.6666666 : miliseconds = 1; 
             var timeScale = timeScaleArg;
             var storage = localStorage.getItem("scales");
             if (storage == null) {
@@ -72,6 +71,12 @@
                 localStorage.setItem("scales", storage);
             }
             var data = [];
+            if (storage != null && storage[storage.length-1] == "Milisecond" && storage[storage.length-2] == "Second") {
+                miliseconds = 16.6666666;
+            }
+            else {
+                miliseconds = 1;
+            }
             if (timeScale == "Hour")
                 data = [
                     {"timeStamp" : 1, "numberOfMessages" : 25},
@@ -168,14 +173,14 @@
                             .bins(timeStamps)(data);            // creating histogram layout
             for (var i = 0; i < timeStamps; i++) {              // filling variable histogram with OUR data
                 histogram[i].dx = width / timeStamps;           // width of bar
-                histogram[i].x = (data[i].timeStamp / multiplier) * barWidth - barWidth;   // placing on x axis
+                histogram[i].x = (data[i].timeStamp / (multiplier * miliseconds)) * barWidth - barWidth;   // placing on x axis
                 histogram[i].y = data[i].numberOfMessages       // placing on y axis
                 histogram[i].d = data[i].timeStamp;             // time
             }
             width += 80;              // now we resize width, so everything fit in
 
             var x = d3.scale.linear()
-                    .domain([0, timeStamps * multiplier])
+                    .domain([0, timeStamps * multiplier * miliseconds])
                     .range([0, width - 5]);
 
             var xAxis = d3.svg.axis()           //x axis
@@ -252,7 +257,10 @@
                                     storage[storage.length - 1] = x;
                                     localStorage.setItem("selectedTime", storage);
                                 }
-                                difference = Math.abs(storage[storage.length - 1] - storage[storage.length - 2]) + (1 * multiplier);
+                                difference = Math.abs(storage[storage.length - 1] - storage[storage.length - 2]) + (1 * multiplier * miliseconds);
+                                if (miliseconds > 2) {
+                                    difference *= 30;
+                                }
                                 clicked(timeScale, difference);
                             }
                         }
@@ -348,6 +356,7 @@
                     }
                     break;
                 case "Milisecond":
+                    console.log(multiplier);
                     if (multiplier > 60) {
                         multiplier /= 60;
                         timeScaleNext = "Milisecond";
@@ -503,21 +512,24 @@
             to = from;
             index = scales.lastIndexOf("Milisecond");
             if ((index * 2 + 1) > selectedValuesLength) {
-                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - multipliers[index - 1]);
+                console.log(multipliers);
+                console.log(multipliers[index-1]);
+                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - multipliers[index]);
                 returnArray[1] = to + selectedValues[selectedValuesLength - 1];
                 return returnArray;
             }
             if ((index * 2) == selectedValuesLength) {
+                console.log("here");
                 from += (selectedValues[selectedValuesLength - 1] - multipliers[index]);
                 returnArray[0] = from;
                 returnArray[1] = from + multipliers[index];
                 return returnArray;
             }
+            console.log("multiply: " + multipliers[index]);
             from += selectedValues[index * 2] - multipliers[index];
             to += selectedValues[(index * 2) + 1];
             returnArray[0] = from;
             returnArray[1] = to;
-            console.log(returnArray);
             return returnArray;
         }
 
