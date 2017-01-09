@@ -243,6 +243,13 @@
                             localStorage.setItem("selectedTime", storage);
                             if ((storage.length % 2) == 0) {        //if storage length is even, we are going to change level (2 values selected)
                                 //we need to calculate difference between selected bars, so we can calculate, if change of scale is necessary
+                                //first we must sort last 2 selected values
+                                if (storage[storage.length - 2] > storage[storage.length - 1]) {
+                                    var x = storage[storage.length - 2];
+                                    storage[storage.length - 2] = storage[storage.length - 1];
+                                    storage[storage.length - 1] = x;
+                                    localStorage.setItem("selectedTime", storage);
+                                }
                                 difference = Math.abs(storage[storage.length - 1] - storage[storage.length - 2]) + (1 * multiplier);
                                 clicked(timeScale, difference);
                             }
@@ -407,86 +414,115 @@
 
         function getSelectedTime() {
             var selectedValues = localStorage.getItem("selectedTime");
+            if (selectedValues == null) {
+                alert("No time selected!");
+                return 1;
+            }
             var scales = localStorage.getItem("scales");
-            var selectedValuesLength = selectedValues.length;
+            var multipliers = localStorage.getItem("multipliers");
+            multipliers = multipliers.split(",");
             var returnArray = [];
             var index;
             var from;
             var to;
             selectedValues = selectedValues.split(",");
+            var selectedValuesLength = selectedValues.length;
             scales = scales.split(",");
             if (selectedValues == null) {
                 alert("Error! No time selected");
                 return null;
             }
             from = (selectedValues[0] - 1) * 3600000;
+            //to = from;
             if (selectedValuesLength < 2) {
                 to = from + 3600000;
                 returnArray[0] = from;
                 returnArray[1] = to;
                 return returnArray;
             }
-            to = selectedValues[1] * 3600000;
+            to = (selectedValues[0] - multipliers[0]) * 3600000;
+            //to = from;
             index = scales.lastIndexOf("Minute");
             if (index < 0 || selectedValuesLength == 2) {
                 returnArray[0] = from;
-                returnArray[1] = to;
+                returnArray[1] = selectedValues[1] * 3600000;
                 return returnArray;
             }
-            if ((index * 2) > selectedValuesLength) {
-                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - 1) * 60000;
+            if ((index * 2 + 1) > selectedValuesLength) {
+                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - multipliers[index - 1]) * 60000;
                 returnArray[1] = to + selectedValues[selectedValuesLength - 1] * 60000;
                 return returnArray;
             }
-            if ((index * 2) == selectedValuesLength) {
-                from += (selectedValues[selectedValuesLength - 1] - 1) * 60000;
+            if ((index * 2) == selectedValuesLength-1) {
+                from += (selectedValues[selectedValuesLength - 1] - multipliers[index]) * 60000;
                 returnArray[0] = from;
-                returnArray[1] = from + 60000;
+                returnArray[1] = from + (60000 * multipliers[index]);
                 return returnArray;
             }
-            from += (selectedValues[index * 2] - 1) * 60000;
-            to += selectedValues[index * 2 + 1] * 60000;
-            if ((index * 2 + 1) == selectedValuesLength) {
+            from += (selectedValues[index * 2] - multipliers[index]) * 60000;
+            to += (selectedValues[index * 2 + 1] - multipliers[index]) * 60000;
+            //to = from;
+            if ((index * 2 + 2) == selectedValuesLength) {
                 returnArray[0] = from;
                 returnArray[1] = to;
                 return returnArray;
             }
+            to = from;
             index = scales.lastIndexOf("Second");
-            if ((index * 2) > selectedValuesLength) {
-                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - 1) * 1000;
+            if ((index * 2 + 1) > selectedValuesLength) {
+                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - multipliers[index - 1]) * 1000;
                 returnArray[1] = to + selectedValues[selectedValuesLength - 1] * 1000;
                 return returnArray;
             }
             if ((index * 2) == selectedValuesLength) {
-                from += (selectedValues[selectedValuesLength - 1] - 1) * 1000;
+                from += (selectedValues[selectedValuesLength - 1] - multipliers[index]) * 1000;
                 returnArray[0] = from;
-                returnArray[1] = from + 1000;
+                returnArray[1] = from + (1000 * multipliers[index]);
                 return returnArray;
             }
-            from += (selectedValues[index * 2] - 1) * 1000;
+            from += (selectedValues[index * 2] - multipliers[index]) * 1000;
             to += selectedValues[index * 2 + 1] * 1000;
-            if ((index * 2 + 1) == selectedValuesLength) {
+            //to = from;
+            if ((index * 2 + 2) == selectedValuesLength) {
                 returnArray[0] = from;
                 returnArray[1] = to;
                 return returnArray;
             }
+            to = from;
             index = scales.lastIndexOf("Milisecond");
-            if ((index * 2) > selectedValuesLength) {
-                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - 1);
+            if ((index * 2 + 1) > selectedValuesLength) {
+                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - multipliers[index - 1]);
                 returnArray[1] = to + selectedValues[selectedValuesLength - 1];
                 return returnArray;
             }
             if ((index * 2) == selectedValuesLength) {
-                from += (selectedValues[selectedValuesLength - 1] - 1);
+                from += (selectedValues[selectedValuesLength - 1] - multipliers[index]);
                 returnArray[0] = from;
-                returnArray[1] = from + 1;
+                returnArray[1] = from + multipliers[index];
                 return returnArray;
             }
-            from += selectedValues[index * 2] - 1;
+            from += selectedValues[index * 2] - multipliers[index];
             to += selectedValues[(index * 2) + 1];
             returnArray[0] = from;
             returnArray[1] = to;
+            console.log(returnArray);
             return returnArray;
+        }
+
+        function timetime() {
+            var output = "";
+            var times = getSelectedTime();
+            var helper;
+            for (var i = 0; i < 2; i++) {
+                output += Math.floor((times[i] / 3600000)) + ":";
+                helper = times[i] % 3600000;
+                output += Math.floor((helper / 60000)) + ":";
+                helper = helper % 60000;
+                output += Math.floor((helper / 1000)) + ":";
+                helper = helper % 1000;
+                output += helper + ";";
+            }
+            console.log(output);
         }
         
         localStorage.clear();
@@ -494,5 +530,6 @@
         timeLine(24, "Hour", 1);
 
   	</script>
+    <button type="button" onclick="timetime()">Click Me!</button>
   </body>
 </html>
