@@ -58,7 +58,9 @@
             var timeStamps = timeStampsArg;
             var barWidth;                                           // width of 1 bar
             var highestValue;
+            var miliseconds;
             timeStamps > 24 ? barWidth = 9.55 : barWidth = 24;      // conversions discovered by method attempt/fault
+            timeScale == "Milisecond" ? miliseconds = 16.6666666 : miliseconds = 1; 
             var timeScale = timeScaleArg;
             var storage = localStorage.getItem("scales");
             if (storage == null) {
@@ -99,66 +101,66 @@
                 ];
             else {
                 data = [
-                    {"timeStamp" : 1 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 2 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 3 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 4 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 5 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 6 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 7 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 8 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 9 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 10 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 11 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 12 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 13 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 14 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 15 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 16 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 17 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 18 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 19 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 20 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 21 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 22 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 23 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 24 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 25 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 26 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 27 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 28 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 29 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 30 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 31 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 32 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 33 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 34 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 35 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 36 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 37 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 38 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 39 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 40 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 41 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 42 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 43 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 44 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 45 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 46 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 47 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 48 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 49 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 50 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 51 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 52 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 53 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 54 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 55 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 56 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 57 * multiplier, "numberOfMessages" : 40},
-                    {"timeStamp" : 58 * multiplier, "numberOfMessages" : 25},
-                    {"timeStamp" : 59 * multiplier, "numberOfMessages" : 30},
-                    {"timeStamp" : 60 * multiplier, "numberOfMessages" : 40}
+                    {"timeStamp" : 1 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 2 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 3 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 4 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 5 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 6 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 7 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 8 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 9 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 10 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 11 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 12 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 13 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 14 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 15 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 16 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 17 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 18 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 19 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 20 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 21 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 22 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 23 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 24 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 25 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 26 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 27 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 28 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 29 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 30 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 31 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 32 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 33 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 34 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 35 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 36 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 37 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 38 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 39 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 40 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 41 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 42 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 43 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 44 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 45 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 46 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 47 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 48 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 49 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 50 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 51 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 52 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 53 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 54 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 55 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 56 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 57 * multiplier * miliseconds, "numberOfMessages" : 40},
+                    {"timeStamp" : 58 * multiplier * miliseconds, "numberOfMessages" : 25},
+                    {"timeStamp" : 59 * multiplier * miliseconds, "numberOfMessages" : 30},
+                    {"timeStamp" : 60 * multiplier * miliseconds, "numberOfMessages" : 40}
                 ];
             }
             highestValue = getHighestValue(data);
@@ -340,10 +342,20 @@
                         timeScaleNext = "Second";
                     }
                     else {
-                        alert("Unable to go any further");
-                        return;
+                        timeScaleNext = "Milisecond";
+                        /*alert("Unable to go any further");
+                        return;*/
                     }
                     break;
+                case "Milisecond":
+                    if (multiplier > 60) {
+                        multiplier /= 60;
+                        timeScaleNext = "Milisecond";
+                    }
+                    else {
+                        alert("Unable to go any further!");
+                        return;
+                    }
             }
             //and now store multiplier, so we can implement returning to higher layer
             if (multi == null) {
