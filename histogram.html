@@ -231,6 +231,10 @@
                     var storage = localStorage.getItem("selectedTime");
                     var difference;
                     if (thisBar.attr("selected") == 0) {        //bar selected
+                        if (localStorage.getItem("lowestLayer") == 1) {
+                                alert("Unable to select more than 2 bars");
+                                return;
+                        }
                         thisBar.attr("selected", 1);
                         thisBar.transition().attr("fill", "green");
                         if (storage == null) {
@@ -256,6 +260,7 @@
                         }
                     }
                     else {      //bar deselected
+                        localStorage.setItem("lowestLayer", 0);
                         thisBar.attr("selected", 0);
                         thisBar.transition().attr("fill", "steelblue");
                         storage = storage.split(",");
@@ -347,13 +352,13 @@
                     }
                     break;
                 case "Milisecond":
-                    console.log(multiplier);
                     if (multiplier > 60) {
                         multiplier /= 60;
                         timeScaleNext = "Milisecond";
                     }
                     else {
                         alert("Unable to go any further!");
+                        localStorage.setItem("lowestLayer", 1);
                         return;
                     }
             }
@@ -388,6 +393,7 @@
                 alert("Unable to go higher!");
                 return;
             }
+            localStorage.setItem("lowestLayer", 0);
             storage = localStorage.getItem("multipliers");
             storage = storage.split(",");
             storage.splice(storage.length - 1, 1);
@@ -471,7 +477,6 @@
                 returnArray[1] = from + (60000 * multipliers[index]);
                 return returnArray;
             }
-            console.log(selectedValues);
             from += (selectedValues[index * 2] - multipliers[index]) * 60000;
             to += (selectedValues[index * 2 + 1]) * 60000;
             //to = from;
@@ -504,8 +509,8 @@
             to = from;
             index = scales.lastIndexOf("Milisecond");
             if ((index * 2 + 1) > selectedValuesLength) {
-                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - multipliers[index]);
-                returnArray[1] = to + selectedValues[selectedValuesLength - 1];
+                returnArray[0] = from + (selectedValues[selectedValuesLength - 2] - multipliers[index-1]);
+                returnArray[1] = parseInt(to) + parseInt(selectedValues[selectedValuesLength - 1]);
                 return returnArray;
             }
             if ((index * 2 + 1) == selectedValuesLength) {
@@ -516,7 +521,7 @@
                 return returnArray;
             }
             from += selectedValues[index * 2] - multipliers[index];
-            to += selectedValues[(index * 2) + 1];
+            to += parseInt(selectedValues[(index * 2) + 1]);
             returnArray[0] = from;
             returnArray[1] = to;
             return returnArray;
@@ -540,6 +545,7 @@
         
         localStorage.clear();
         localStorage.setItem("multipliers", 1);
+        localStorage.setItem("lowestLayer", 0);
         timeLine(24, "Hour", 1);
 
   	</script>
