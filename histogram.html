@@ -61,7 +61,7 @@
             timeStamps > 24 ? barWidth = 9.55 : barWidth = 24;      // conversions discovered by method attempt/fault
             var timeScale = timeScaleArg;
             var storage = localStorage.getItem("scales");
-            if (storage == null) {
+            if (storage === null) {
                 localStorage.setItem("scales", timeScale);
             }
             else {
@@ -70,7 +70,10 @@
                 localStorage.setItem("scales", storage);
             }
             var data = [];
-            if (timeScale == "Hour")
+            for (var i = 0; i < timeStamps; i++) {
+                data[i] = {"timeStamp" : (i + 1) * multiplier, "numberOfMessages" : Math.floor(Math.random()*100)};
+            }
+            /*if (timeScale === "Hour")
                 data = [
                     {"timeStamp" : 1, "numberOfMessages" : 25},
                     {"timeStamp" : 2, "numberOfMessages" : 30},
@@ -160,7 +163,7 @@
                     {"timeStamp" : 59 * multiplier, "numberOfMessages" : 30},
                     {"timeStamp" : 60 * multiplier, "numberOfMessages" : 40}
                 ];
-            }
+            }*/
             highestValue = getHighestValue(data);
             var histogram = d3.layout.histogram()
                             .bins(timeStamps)(data);            // creating histogram layout
@@ -221,7 +224,7 @@
                 })
                 .on("mouseout", function() {
                     var thisBar = d3.select(this);
-                    if (thisBar.attr("selected") == 0) {
+                    if (thisBar.attr("selected") === 0) {
                         thisBar.transition()
                             .attr("fill", "steelblue");
                     }
@@ -230,14 +233,14 @@
                     var thisBar = d3.select(this);
                     var storage = localStorage.getItem("selectedTime");
                     var difference;
-                    if (thisBar.attr("selected") == 0) {        //bar selected
-                        if (localStorage.getItem("lowestLayer") == 1) {
+                    if (thisBar.attr("selected") === 0) {        //bar selected
+                        if (localStorage.getItem("lowestLayer") === 1) {
                                 alert("Unable to select more than 2 bars");
                                 return;
                         }
                         thisBar.attr("selected", 1);
                         thisBar.transition().attr("fill", "green");
-                        if (storage == null) {
+                        if (storage === null) {
                             localStorage.setItem("selectedTime", thisBar.attr("time"));
                         }
                         else {
@@ -245,7 +248,7 @@
                             storage = storage.split(",");
                             storage.push(thisBar.attr("time"));
                             localStorage.setItem("selectedTime", storage);
-                            if ((storage.length % 2) == 0) {        //if storage length is even, we are going to change level (2 values selected)
+                            if ((storage.length % 2) === 0) {        //if storage length is even, we are going to change level (2 values selected)
                                 //we need to calculate difference between selected bars, so we can calculate, if change of scale is necessary
                                 //first we must sort last 2 selected values
                                 if (parseInt(storage[storage.length - 2]) > parseInt(storage[storage.length - 1])) {
@@ -266,7 +269,7 @@
                         storage = storage.split(",");
                         var index = storage.lastIndexOf(thisBar.attr("time"));  //find index of deselected bar
                         storage.splice(index, 1);   //remove deselected bar from array
-                        if (storage.length == 0) {  //no more selected bars (needs to be checked only in hour layer)
+                        if (storage.length === 0) {  //no more selected bars (needs to be checked only in hour layer)
                             localStorage.removeItem("selectedTime");
                         }
                         else {
@@ -302,7 +305,7 @@
             .attr("timeStamp", timeScale)
             .on("click", function() {
                 higher(d3.select(this).attr("timeStamp"));
-            })
+            });
             button.append("text")
                 .attr("x", 525)
                 .attr("y", 135)
@@ -363,7 +366,7 @@
                     }
             }
             //and now store multiplier, so we can implement returning to higher layer
-            if (multi == null) {
+            if (multi === null) {
                 localStorage.setItem("multipliers", multiplier);
             }
             else {
@@ -389,7 +392,7 @@
             var multiply;
             var difference;
             var alreadySelected;
-            if (timeScale == "Hour") {
+            if (timeScale === "Hour") {
                 alert("Unable to go higher!");
                 return;
             }
@@ -397,7 +400,7 @@
             storage = localStorage.getItem("multipliers");
             storage = storage.split(",");
             storage.splice(storage.length - 1, 1);
-            if (storage.length == 0) {
+            if (storage.length === 0) {
                 localStorage.removeItem("multipliers");
             }
             else {
@@ -408,7 +411,7 @@
             storage2 = storage2.split(",");
             timeScaleNext = storage2[storage2.length - 2];
             storage2.splice(storage2.length - 2, 2);
-            if (storage2.length == 0) {
+            if (storage2.length === 0) {
                 localStorage.removeItem("scales");
             }
             else {
@@ -419,20 +422,20 @@
             difference = storage.length - ((storage2.length + 1) * 2);
             alreadySelected = storage.length % 2;
             storage.splice(storage.length - 2 - alreadySelected - difference, 2 + alreadySelected + difference);
-            if (storage.length == 0) {
+            if (storage.length === 0) {
                 localStorage.removeItem("selectedTime");
             }
             else {
                 localStorage.setItem("selectedTime", storage);
             }
-            timeScaleNext == "Hour" ? ticks = 24 : ticks = 60; 
+            timeScaleNext === "Hour" ? ticks = 24 : ticks = 60; 
             destroyTimeLine();
             timeLine(ticks, timeScaleNext, multiply);
         }
 
         function getSelectedTime() {
             var selectedValues = localStorage.getItem("selectedTime");
-            if (selectedValues == null) {
+            if (selectedValues === null) {
                 alert("No time selected!");
                 return 1;
             }
@@ -446,7 +449,7 @@
             selectedValues = selectedValues.split(",");
             var selectedValuesLength = selectedValues.length;
             scales = scales.split(",");
-            if (selectedValues == null) {
+            if (selectedValues === null) {
                 alert("Error! No time selected");
                 return null;
             }
@@ -461,7 +464,7 @@
             to = (selectedValues[0] - multipliers[0]) * 3600000;
             //to = from;
             index = scales.lastIndexOf("Minute");
-            if (index < 0 || selectedValuesLength == 2) {
+            if (index < 0 || selectedValuesLength === 2) {
                 returnArray[0] = from;
                 returnArray[1] = selectedValues[1] * 3600000;
                 return returnArray;
@@ -471,7 +474,7 @@
                 returnArray[1] = to + selectedValues[selectedValuesLength - 1] * 60000;
                 return returnArray;
             }
-            if ((index * 2) == selectedValuesLength-1) {
+            if ((index * 2) === selectedValuesLength-1) {
                 from += (selectedValues[selectedValuesLength - 1] - multipliers[index]) * 60000;
                 returnArray[0] = from;
                 returnArray[1] = from + (60000 * multipliers[index]);
@@ -480,7 +483,7 @@
             from += (selectedValues[index * 2] - multipliers[index]) * 60000;
             to += (selectedValues[index * 2 + 1]) * 60000;
             //to = from;
-            if ((index * 2 + 2) == selectedValuesLength) {
+            if ((index * 2 + 2) === selectedValuesLength) {
                 returnArray[0] = from;
                 returnArray[1] = to;
                 return returnArray;
@@ -492,7 +495,7 @@
                 returnArray[1] = to + selectedValues[selectedValuesLength - 1] * 1000;
                 return returnArray;
             }
-            if ((index * 2 + 1) == selectedValuesLength) {
+            if ((index * 2 + 1) === selectedValuesLength) {
                 from += (selectedValues[selectedValuesLength - 1] - multipliers[index]) * 1000;
                 returnArray[0] = from;
                 returnArray[1] = from + (1000 * multipliers[index]);
@@ -501,7 +504,7 @@
             from += (selectedValues[index * 2] - multipliers[index]) * 1000;
             to += selectedValues[index * 2 + 1] * 1000;
             //to = from;
-            if ((index * 2 + 2) == selectedValuesLength) {
+            if ((index * 2 + 2) === selectedValuesLength) {
                 returnArray[0] = from;
                 returnArray[1] = to;
                 return returnArray;
@@ -513,7 +516,7 @@
                 returnArray[1] = parseInt(to) + parseInt(selectedValues[selectedValuesLength - 1]);
                 return returnArray;
             }
-            if ((index * 2 + 1) == selectedValuesLength) {
+            if ((index * 2 + 1) === selectedValuesLength) {
                 from += (selectedValues[selectedValuesLength - 1] - multipliers[index]);
                 returnArray[0] = from;
                 from = parseInt(from) + parseInt(multipliers[index]);
